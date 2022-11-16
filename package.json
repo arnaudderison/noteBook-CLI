@@ -1,0 +1,39 @@
+{
+  "name": "notebook-cli",
+  "version": "1.0.0",
+  "description": "Note manager CLI",
+  "bin": {
+    "notebook": "./dist/src/index.js"
+  },
+  "main": "./dist/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "start": "node ./dist/src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnaud422/noteBook-CLI.git"
+  },
+  "keywords": [
+    "Arnaud",
+    "Derison",
+    "note"
+  ],
+  "author": "Arnaud Derison",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arnaud422/noteBook-CLI/issues"
+  },
+  "homepage": "https://github.com/arnaud422/noteBook-CLI#readme",
+  "devDependencies": {
+    "@tsconfig/node18": "^1.0.1",
+    "@types/node": "^18.11.9",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "chalk": "^5.1.2",
+    "commander": "^9.4.1"
+  }
+}
