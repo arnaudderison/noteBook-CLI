@@ -4,7 +4,7 @@
         "src/**/*"
     ],
     "compilerOptions": {
-      "outDir": "./dist",
+      "outDir": "./dist/src/",
       "resolveJsonModule": true
     }
 }
