@@ -1,3 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    margin: 10px;
+}
 body{
-    background-color: black;
+    background-color: #1e272e;
+    color: #d2dae2;
+}
+.container{
+    width: 70%;
+    margin: auto;
+    text-align: justify;
+    border: 1px solid red;
+}
+.highlight{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #ff5e57;
+}
+code{
+    width: 100%;
+    background-color: #d2dae2;
+    color: #1e272e;
+    padding: 5px;
+}
+a{
+    color: #3c40c6;
 }

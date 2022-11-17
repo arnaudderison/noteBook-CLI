@@ -8,8 +8,7 @@
 import fs from "node:fs/promises";
 import { constants } from "node:fs/promises";
 import { Reviver, Config } from "./objects/configFile";
-
-const DEFAULT_CONFIG_FILE = "./notebookConfig.json";
+import { DEFAULT_CONFIG_FILE } from "./command";
 
 export async function readNote(path: string): Promise<string | number> {
     try {
@@ -35,16 +34,16 @@ export async function fileExists(path:string):Promise<boolean>{
     }
 }
 
-export async function readConfigFile(): Promise<Config | number>{
+export async function readConfigFile(file:string): Promise<Config>{
     try{
-        if(await fileExists(DEFAULT_CONFIG_FILE)){
-            const buffer = await fs.readFile(DEFAULT_CONFIG_FILE);
+        if(await fileExists(file)){
+            const buffer = await fs.readFile(file);
             const json:string = buffer.toString();
             return verifConfigFile(json);
 
-        }else return -1;
+        } throw new Error("erreur")
     }catch(err){
-        return -1;
+        throw err;
     }
 
 }
@@ -64,6 +63,21 @@ export async function saveSourceFile(src:string, dest:string): Promise<boolean>{
         return true;
     }catch(err){
         console.log(err)
+        return false;
+    }
+}
+
+export async function writeHtmlFile(path:string, code:string):Promise<boolean>{
+    const config = await readConfigFile(DEFAULT_CONFIG_FILE); 
+    try{
+        const startFile:string = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="${config.csslocation}"><title>Document</title></head><div class="container">`;
+        const EndFile:string = '</div></body></html>';
+
+        const newCode = startFile + code + EndFile;
+
+        await fs.writeFile(path, newCode);
+        return true;
+    }catch(err){
         return false;
     }
 }

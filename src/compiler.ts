@@ -39,7 +39,7 @@ export function complilerToHtml(data: string): string {
     newData = replaceUrlInData(newData);
 
     newData = codeParser(newData);
-    newData = replaceInData(newData, HIGHLIGHT_REGEX, '<div class="box-highlight"><span class="highlight">$1</span></div>');
+    newData = replaceInData(newData, HIGHLIGHT_REGEX, '<span class="highlight">$1</span>');
 
     return newData + "\n";
 }

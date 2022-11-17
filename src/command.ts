@@ -1,12 +1,22 @@
+/* 
+            _                               _   ____            _                 
+           / \   _ __ _ __   __ _ _   _  __| | |  _ \  ___ _ __(_)___  ___  _ __  
+          / _ \ | '__| '_ \ / _` | | | |/ _` | | | | |/ _ \ '__| / __|/ _ \| '_ \ 
+         / ___ \| |  | | | | (_| | |_| | (_| | | |_| |  __/ |  | \__ \ (_) | | | |
+        /_/   \_\_|  |_| |_|\__,_|\__,_|\__,_| |____/ \___|_|  |_|___/\___/|_| |_|
+*/
 import { Config } from "./objects/configFile";
 import readline from "node:readline";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs";
-import { saveSourceFile,saveConfigFile } from "./utils";
+import { saveSourceFile,saveConfigFile, readNote, writeHtmlFile, readConfigFile } from "./utils";
+import { complilerToHtml } from "./compiler";
 
 
-const DEFAULT_PATH_NOTE = path.join(os.homedir(), "Desktop/NoteBook/");
+const DEFAULT_PATH_NOTE = path.join(os.homedir(), "Desktop/NoteBook-CLI/");
+export const DEFAULT_CONFIG_FILE = path.join(os.homedir(), "NoteBookConfig.json");
+
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -57,15 +67,33 @@ export async function initialisation() {
     })
 }
 
+export async function compile(file:string){
+    try{
+        const htmlCode = complilerToHtml((await readNote(file)).toString());
+        const configFile = await readConfigFile(DEFAULT_CONFIG_FILE);
+
+        let fileName = file.split("\\")
+        const fileNameTab = fileName[fileName.length - 1].split(".")
+      
+        
+        await writeHtmlFile(path.join(configFile.NoteBooklocation, `HTML/${fileNameTab[0]}.html`),htmlCode);
+        return true;
+    }catch(err){
+        console.log(err)
+        return false;
+    }
+    
+}
+
 async function closed(file:string){
     const styleFile = path.join(file, "HTML/assets/style.css");
     const isCopy = await saveSourceFile("./style/style.css", styleFile);
     if(isCopy){
-        NoteConfig.csslocation = path.join(styleFile, "style.css");
+        NoteConfig.csslocation = styleFile;
         NoteConfig.NoteBooklocation = file;
         NoteConfig.init = true;
 
-        const issave = await saveConfigFile(path.join(os.homedir(), "NoteBookConfig.json"), NoteConfig)
+        const issave = await saveConfigFile(DEFAULT_CONFIG_FILE, NoteConfig)
         
         console.log(issave)
     }else{

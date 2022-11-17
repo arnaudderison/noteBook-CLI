@@ -7,10 +7,9 @@
 */
 
 import { name, description, version } from "../package.json"
-import { complilerToHtml } from "./compiler";
 import { Command, InvalidArgumentError } from "commander";
-import { readNote } from "./utils";
-import { initialisation } from "./command";
+
+import { compile, initialisation } from "./command";
 
 const Program = new Command();
 
@@ -30,8 +29,8 @@ Program
     .description("Compile a Mardown code to html")
     .argument("<file>", "Mardown File")
     .action(async(file)=>{
-        const htmlCode = complilerToHtml((await readNote(file)).toString());
-        console.log(htmlCode);
+        await compile(file);
+        console.log("htmlCode");
     })
 
 Program.parse();
