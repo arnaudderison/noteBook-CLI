@@ -25,12 +25,19 @@ Program
         await initialisation()
     });
 Program
-    .command("compile")
+    .command("compileFile")
     .description("Compile a Mardown code to html")
     .argument("<file>", "Mardown File")
-    .action(async(file)=>{
+    .action(async (file) => {
         await compile(file);
         console.log("htmlCode");
+    })
+Program
+    .command("compileNote")
+    .description("Compile a Mardown code to html in note directory")
+    .argument("<dir>", "Mardown directory")
+    .action(async (dir) => {
+        console.log("compiler le dossier notes ");
     })
 
 Program.parse();
