@@ -60,8 +60,8 @@ export async function initialisation() {
                 console.log("[+] Create file :" + path);
                 closed(noteFile);
                 rl.close();
-            })
-            
+                
+            })   
         }
 
     })
@@ -77,6 +77,7 @@ export async function compile(file:string){
       
         
         await writeHtmlFile(path.join(configFile.NoteBooklocation, `HTML/${fileNameTab[0]}.html`),htmlCode);
+        rl.close()
         return true;
     }catch(err){
         console.log(err)
@@ -93,9 +94,8 @@ async function closed(file:string){
         NoteConfig.NoteBooklocation = file;
         NoteConfig.init = true;
 
-        const issave = await saveConfigFile(DEFAULT_CONFIG_FILE, NoteConfig)
+        await saveConfigFile(DEFAULT_CONFIG_FILE, NoteConfig)
         
-        console.log(issave)
     }else{
         throw new Error('Error')
     }
