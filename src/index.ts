@@ -9,7 +9,7 @@
 import { name, description, version } from "../package.json"
 import { Command, InvalidArgumentError } from "commander";
 
-import { compile, initialisation } from "./command";
+import { compile, initialisation, compileFile } from "./command";
 
 const Program = new Command();
 
@@ -25,7 +25,7 @@ Program
         await initialisation()
     });
 Program
-    .command("compileFile")
+    .command("compileNote")
     .description("Compile a Mardown code to html")
     .argument("<file>", "Mardown File")
     .action(async (file) => {
@@ -33,11 +33,10 @@ Program
         console.log("htmlCode");
     })
 Program
-    .command("compileNote")
+    .command("compileNotes")
     .description("Compile a Mardown code to html in note directory")
-    .argument("<dir>", "Mardown directory")
-    .action(async (dir) => {
-        console.log("compiler le dossier notes ");
+    .action(async () => {
+        await compileFile()
     })
 
 Program.parse();

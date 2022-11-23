@@ -12,6 +12,7 @@ import os from "node:os";
 import fs from "node:fs";
 import { saveSourceFile,saveConfigFile, readNote, writeHtmlFile, readConfigFile } from "./utils";
 import { complilerToHtml } from "./compiler";
+import { off } from "node:process";
 
 
 const DEFAULT_PATH_NOTE = path.join(os.homedir(), "Desktop/NoteBook-CLI/");
@@ -86,6 +87,34 @@ export async function compile(file:string){
     
 }
 
+export async function compileFile(dir:string = ""){
+    try{
+        if(dir === ""){
+            const config  = await readConfigFile(DEFAULT_CONFIG_FILE)
+            const noteFile = path.join(config.NoteBooklocation, "Notes/")
+
+            await fs.readdir(noteFile, (err,files)=>{
+                if(err){
+                    console.log(err);
+                }
+
+                files.map((file)=>{
+                    const fileName = path.join(noteFile,file);
+                    compile(fileName);
+                })
+            })
+            rl.close();
+        }
+
+    }catch(err){
+        console.log(err)
+        rl.close();
+    }
+
+    
+    
+}
+
 async function closed(file:string){
     const styleFile = path.join(file, "HTML/assets/style.css");
     const isCopy = await saveSourceFile("./style/style.css", styleFile);
@@ -101,3 +130,4 @@ async function closed(file:string){
     }
     
 }
+
