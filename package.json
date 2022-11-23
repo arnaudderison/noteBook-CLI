@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Note manager CLI",
   "bin": {
-    "notebook": "./dist/src/index.js"
+    "notebook": "node ./dist/src/index.js"
   },
   "main": "./dist/src/index.js",
   "scripts": {
